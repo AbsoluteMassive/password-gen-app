@@ -1,10 +1,23 @@
-import { useState } from "react";
+const PasswordGenerator = ({
+  password,
+  setCharacterAllowed,
+  setLeng,
+  setNumberAllowed,
+  numberAllowed,
+  characterAllowed,
+  leng,
+  copied,
+  setCopied,
+  onGenPass,
+  onCopy,
+}) => {
+  const word = numberAllowed
+    ? "special characters"
+    : characterAllowed
+      ? "numbers"
+      : "numbers or special characters";
 
-const PasswordGenerator = () => {
-  const [length, setLength] = useState(10);
-  const [numberAllowed, setNumberAllowed] = useState(false);
-  const [characterAllowed, setCharacterAllowed] = useState(false);
-  const [password, setPassword] = useState("");
+  const message = `Include ${word} to increase your password strength.`;
 
   return (
     <div className="container mx-auto mt-8">
@@ -20,30 +33,42 @@ const PasswordGenerator = () => {
             >
               Generated Password
             </label>
-            <input
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              id="password"
-              type="text"
-              placeholder="Your password will appear here"
-              value={password}
-              readOnly
-            />
+            <div className="flex">
+              <input
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                id="password"
+                type="text"
+                placeholder="Your password will appear here"
+                value={password}
+                readOnly
+              />
+              <button
+                className="bg-green-500 hover:bg-green-600 ml-1
+               text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                onClick={onCopy}
+              >
+                {copied ? "Copied!" : "Copy"}
+              </button>
+            </div>
           </div>
+          {(!numberAllowed || !characterAllowed) && (
+            <p className="text-gray-400 mb-1">{message}</p>
+          )}
           <div className="mb-4">
             <label
               className="block text-gray-700 text-sm font-bold mb-2"
-              htmlFor="length"
+              htmlFor="leng"
             >
-              Password Length: {length}
+              Password Length: {leng}
             </label>
             <input
               className="w-full"
-              id="length"
+              id="leng"
               type="range"
               min="6"
               max="20"
-              value={length}
-              onChange={(e) => setLength(e.target.value)}
+              value={leng}
+              onChange={(e) => setLeng(e.target.value)}
             />
           </div>
           <div className="mb-4">
@@ -69,11 +94,10 @@ const PasswordGenerator = () => {
             </label>
           </div>
           <button
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            className="bg-blue-500 active:bg-blue-800 hover:bg-blue-700
+           text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
             type="button"
-            onClick={() => {
-              console.log(characterAllowed);
-            }}
+            onClick={onGenPass}
           >
             Generate Password
           </button>
