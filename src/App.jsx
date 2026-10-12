@@ -22,7 +22,9 @@ function App() {
       let positionNum = Math.floor(Math.random() * strdata.length);
       newPassword += strdata.charAt(positionNum);
     }
-    //if(!/)
+    if (/[il1o0]/i.test(newPassword)) {
+      return passwordGenerator();
+    }
     if (!/[A-Z]/.test(newPassword)) {
       return passwordGenerator();
     }
