@@ -35,22 +35,22 @@ const PasswordGenerator = ({
             : "";
 
   return (
-    <div className="container mx-auto mt-8">
-      <h1 className="text-4xl font-bold text-center mb-8">
+    <div className="container pb-8 mx-auto mt-8 ">
+      <h1 className="text-4xl dark:text-white font-bold text-center mb-8 ">
         Password Generator
       </h1>
-      <div className="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl">
-        <div className="p-8">
+      <div className="max-w-md mx-auto  bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl">
+        <div className="p-8 dark:bg-gray-900">
           <div className="mb-4">
             <label
-              className="block text-gray-700 text-sm font-bold mb-2"
+              className="block text-gray-700 dark:text-white text-sm font-bold mb-2"
               htmlFor="password"
             >
               Generated Password
             </label>
             <div className="flex flex-col gap-1 sm:flex-row">
               <input
-                className="shadow flex-1 appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                className="shadow flex-1 appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:text-white leading-tight focus:outline-none focus:shadow-outline"
                 id="password"
                 type="text"
                 placeholder="Your password will appear here"
@@ -67,10 +67,10 @@ const PasswordGenerator = ({
             </div>
             <div className="w-full mt-1">
               <div className="flex items-center justify-between gap-4 mb-2">
-                <h6 className="font-semibold text-blue-gray-900">
+                <h6 className="font-semibold text-blue-gray-700 dark:text-white">
                   Password Strength
                 </h6>
-                <h6 className="font-semibold text-blue-gray-900">
+                <h6 className="font-semibold dark:text-white text-blue-gray-700">
                   {str * 20}%
                 </h6>
               </div>
@@ -88,7 +88,7 @@ const PasswordGenerator = ({
           )}
           <div className="mb-4">
             <label
-              className="block text-gray-700 text-sm font-bold mb-2"
+              className="block text-gray-700 dark:text-white text-sm font-bold mb-2"
               htmlFor="leng"
             >
               Password Length: {leng}
@@ -111,7 +111,7 @@ const PasswordGenerator = ({
                 checked={numberAllowed}
                 onChange={() => setNumberAllowed(!numberAllowed)}
               />
-              <span className="ml-2">Include Numbers</span>
+              <span className="ml-2 dark:text-white">Include Numbers</span>
             </label>
           </div>
           <div className="mb-4">
@@ -122,7 +122,9 @@ const PasswordGenerator = ({
                 checked={characterAllowed}
                 onChange={() => setCharacterAllowed(!characterAllowed)}
               />
-              <span className="ml-2">Include Special Characters</span>
+              <span className="ml-2 dark:text-white">
+                Include Special Characters
+              </span>
             </label>
           </div>
           <button
