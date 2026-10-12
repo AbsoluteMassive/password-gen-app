@@ -7,17 +7,32 @@ const PasswordGenerator = ({
   characterAllowed,
   leng,
   copied,
-  setCopied,
   onGenPass,
   onCopy,
 }) => {
-  const word = numberAllowed
-    ? "special characters"
-    : characterAllowed
-      ? "numbers"
-      : "numbers or special characters";
+  const str = Math.min(
+    5,
+    1 +
+      (leng >= 10 ? 1 : 0) +
+      (leng >= 14 ? 1 : 0) +
+      (numberAllowed ? 1 : 0) +
+      (characterAllowed ? 1 : 0),
+  );
+  const strS = {
+    t: str <= 2 ? "bg-red-500" : str <= 3 ? "bg-yellow-500" : "bg-green-500",
+    s: str * 20,
+  };
 
-  const message = `Include ${word} to increase your password strength.`;
+  const message =
+    !numberAllowed && !characterAllowed
+      ? "Include numbers or special characters to increase your password strength."
+      : !numberAllowed
+        ? "Include numbers to increase your password strength."
+        : !characterAllowed
+          ? "Include special characters to increase your password strength."
+          : leng < 10
+            ? "At least 10 password length to increase your password strength."
+            : "";
 
   return (
     <div className="container mx-auto mt-8">
@@ -33,9 +48,9 @@ const PasswordGenerator = ({
             >
               Generated Password
             </label>
-            <div className="flex">
+            <div className="flex flex-col gap-1 sm:flex-row">
               <input
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                className="shadow flex-1 appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 id="password"
                 type="text"
                 placeholder="Your password will appear here"
@@ -43,15 +58,32 @@ const PasswordGenerator = ({
                 readOnly
               />
               <button
-                className="bg-green-500 hover:bg-green-600 ml-1
+                className="bg-green-500 hover:bg-green-600 shrink-0 active:bg-green-700 mx-auto
                text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                 onClick={onCopy}
               >
-                {copied ? "Copied!" : "Copy"}
+                {copied ? "Copied!" : "Copy to Clipboard"}
               </button>
             </div>
+            <div className="w-full mt-1">
+              <div className="flex items-center justify-between gap-4 mb-2">
+                <h6 className="font-semibold text-blue-gray-900">
+                  Password Strength
+                </h6>
+                <h6 className="font-semibold text-blue-gray-900">
+                  {str * 20}%
+                </h6>
+              </div>
+
+              <div className="h-2.5 w-full overflow-hidden rounded-full bg-gray-200">
+                <div
+                  className={`h-full rounded-full transition-all duration-300 ${strS.t}`}
+                  style={{ width: `${strS.s}%` }}
+                />
+              </div>
+            </div>
           </div>
-          {(!numberAllowed || !characterAllowed) && (
+          {(!numberAllowed || !characterAllowed || leng < 10) && (
             <p className="text-gray-400 mb-1">{message}</p>
           )}
           <div className="mb-4">

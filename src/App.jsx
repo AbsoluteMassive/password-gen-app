@@ -3,7 +3,7 @@ import { useCallback, useState } from "react";
 import "./App.css";
 import PasswordGenerator from "./components/PasswordGenerator";
 function App() {
-  const [leng, setLeng] = useState(10);
+  const [leng, setLeng] = useState(6);
   const [numberAllowed, setNumberAllowed] = useState(false);
   const [characterAllowed, setCharacterAllowed] = useState(false);
   const [password, setPassword] = useState("");
@@ -22,6 +22,7 @@ function App() {
       let positionNum = Math.floor(Math.random() * strdata.length);
       newPassword += strdata.charAt(positionNum);
     }
+    //if(!/)
     if (!/[A-Z]/.test(newPassword)) {
       return passwordGenerator();
     }
@@ -35,11 +36,16 @@ function App() {
     setCopied(false);
   }, [leng, characterAllowed, numberAllowed, setPassword]);
 
-  const copyPassword = () => {
-    setCopied(true);
-    setTimeout(() => {
-      setCopied(false);
-    }, 5000);
+  const copyPassword = async () => {
+    if (!password) {
+      return;
+    }
+    try {
+      await navigator.clipboard.writeText(password);
+      setCopied(true);
+    } catch (error) {
+      console.error("Failed to copy password:", error);
+    }
   };
 
   return (
