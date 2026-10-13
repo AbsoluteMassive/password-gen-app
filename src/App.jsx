@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useState, useRef } from "react";
 
 import "./App.css";
 import PasswordGenerator from "./components/PasswordGenerator";
@@ -8,12 +8,13 @@ function App() {
   const [characterAllowed, setCharacterAllowed] = useState(false);
   const [password, setPassword] = useState("");
   const [copied, setCopied] = useState(false);
-
+  const passasRef = useRef(null);
+  // useCallback reuses the function until dependencies change.
   const passwordGenerator = useCallback(() => {
     let newPassword = "";
-    let strdata = "ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz";
+    let strdata = "ABCDEFGHJKLMNPQRSTUVXYZabcdefghjkmnpqrstuvwxyz";
     if (numberAllowed) {
-      strdata += "0123456789";
+      strdata += "023456789";
     }
     if (characterAllowed) {
       strdata += "!@#$%^&*()_-+=";
@@ -21,9 +22,6 @@ function App() {
     for (let index = 0; index < leng; index++) {
       let positionNum = Math.floor(Math.random() * strdata.length);
       newPassword += strdata.charAt(positionNum);
-    }
-    if (/[il1o0]/i.test(newPassword)) {
-      return passwordGenerator();
     }
     if (!/[A-Z]/.test(newPassword)) {
       return passwordGenerator();
@@ -36,9 +34,14 @@ function App() {
     }
     setPassword(newPassword);
     setCopied(false);
-  }, [leng, characterAllowed, numberAllowed, setPassword]);
+  }, [leng, characterAllowed, numberAllowed]);
 
-  const copyPassword = async () => {
+  const copyPasswordToClipboard = useCallback(() => {
+    passasRef.current?.select();
+    window.navigator.clipboard.writeText(password);
+    setCopied(true);
+  }, [password]);
+  /* const copyPasswordToClipboard = async () => {
     if (!password) {
       return;
     }
@@ -48,22 +51,25 @@ function App() {
     } catch (error) {
       console.error("Failed to copy password:", error);
     }
-  };
+  }; */
 
   return (
-    <PasswordGenerator
-      numberAllowed={numberAllowed}
-      characterAllowed={characterAllowed}
-      leng={leng}
-      setNumberAllowed={setNumberAllowed}
-      setLeng={setLeng}
-      setCharacterAllowed={setCharacterAllowed}
-      password={password}
-      onGenPass={passwordGenerator}
-      copied={copied}
-      setCopied={setCopied}
-      onCopy={copyPassword}
-    />
+    <>
+      <PasswordGenerator
+        numberAllowed={numberAllowed}
+        characterAllowed={characterAllowed}
+        leng={leng}
+        setNumberAllowed={setNumberAllowed}
+        setLeng={setLeng}
+        setCharacterAllowed={setCharacterAllowed}
+        password={password}
+        onGenPass={passwordGenerator}
+        copied={copied}
+        setCopied={setCopied}
+        onCopy={copyPasswordToClipboard}
+        passasRef={passasRef}
+      />
+    </>
   );
 }
 

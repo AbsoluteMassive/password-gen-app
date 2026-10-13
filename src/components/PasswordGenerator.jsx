@@ -8,6 +8,7 @@ const PasswordGenerator = ({
   leng,
   copied,
   onGenPass,
+  passasRef,
   onCopy,
 }) => {
   const str = Math.min(
@@ -56,6 +57,7 @@ const PasswordGenerator = ({
                 placeholder="Your password will appear here"
                 value={password}
                 readOnly
+                ref={passasRef}
               />
               <button
                 className="bg-green-500 hover:bg-green-600 shrink-0 active:bg-green-700 mx-auto
