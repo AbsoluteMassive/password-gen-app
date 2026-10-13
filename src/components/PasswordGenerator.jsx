@@ -59,13 +59,15 @@ const PasswordGenerator = ({
                 readOnly
                 ref={passasRef}
               />
-              <button
-                className="bg-green-500 hover:bg-green-600 shrink-0 active:bg-green-700 mx-auto
+              {password && (
+                <button
+                  className="bg-green-500 hover:bg-green-600 shrink-0 active:bg-green-700 mx-auto
                text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                onClick={onCopy}
-              >
-                {copied ? "Copied!" : "Copy to Clipboard"}
-              </button>
+                  onClick={onCopy}
+                >
+                  {copied ? "Copied!" : "Copy to Clipboard"}
+                </button>
+              )}
             </div>
             <div className="w-full mt-1">
               <div className="flex items-center justify-between gap-4 mb-2">
